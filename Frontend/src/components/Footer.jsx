@@ -31,7 +31,7 @@ const Footer = () => {
             <h4>Contact Us</h4>
             <hr style={{ backgroundColor: '#fff', margin: '10px 0' }} />
             <p>Phone: 999999999</p>
-            <p>Email: mehak.ec.22@nitj.ac.in</p>
+            <p>Email: singlamehak2005@gmail.com</p>
           </div>
         </div>
       </footer>
