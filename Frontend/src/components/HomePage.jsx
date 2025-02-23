@@ -1,7 +1,7 @@
 
 import Description from './Description'
 // import Book2 from './Book2'
-// import Explore from './Explore'
+import Explore from './Explore'
 // import OurServicesSection from './OurServices'
 // import MeetOurDoc from './MeetOurDoc'
 // import AboutUsSection from './AboutUs'
@@ -18,6 +18,7 @@ function HomePage() {
             </div>
             <div className='content'>
                 <Description/>
+                <Explore/>
                 {/* <Book2/>
                 <Explore/>
                 <OurServicesSection/>
