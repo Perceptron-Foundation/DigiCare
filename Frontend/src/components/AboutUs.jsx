@@ -11,9 +11,11 @@ const AboutUsSection = () => {
         </div>
         <div style={{ flex: '1', marginLeft: '20px' }}>
           <h2>About Us</h2>
+          <h3 className='text-blue-500'>    Revolutionizing Healthcare, One Patient at a Time</h3>
           <p>
-          Learn more about HealthFirst and our vision for the future of healthcare. As pioneers in the field of digital health, we are driven by a passion for innovation, accessibility, and patient-centered care. Our platform represents a paradigm shift in healthcare delivery, offering a holistic approach that prioritizes the individual needs of each patient.
-          </p>
+      
+
+At DigiCare, we're not just imagining the future of healthcare — we're building it. Fueled by innovation and a deep commitment to patient-first solutions, we’re transforming the way care is delivered. Our intelligent platform bridges the gap between technology and compassion, offering seamless, personalized healthcare experiences. With DigiCare, it’s not just about treatment — it’s about empowering healthier lives.          </p>
           <Link to="/about-us-details"><button>Know More</button></Link>
         </div>
       </div>
