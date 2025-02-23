@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import medicalImage from './images/docnew.jpeg';
-import patientHistory from './images/docnew.jpeg';
+import patientHistory from './images/Analysis.jpg';
 import symptomCorrelation from './images/docnew.jpeg';
-import confidenceScore from './images/docnew.jpeg';
-import erpPortal from './images/docnew.jpeg';
-import multiLingualChat from './images/docnew.jpeg';
+import confidenceScore from './images/Confidence.jpg';
+import erpPortal from './images/Erp.jpg';
+import multiLingualChat from './images/Chatbot.jpg';
 
 const FeatureCard = ({ icon, text, link, desc }) => {
     return (
