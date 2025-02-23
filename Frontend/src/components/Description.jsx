@@ -10,7 +10,7 @@ const Description = () => {
      <div className="flex flex-col items-center justify-center text-center flex-grow px-6">
          
           <h1 className="text-5xl font-bold leading-tight mb-4">
-          From Symptons to Solutions-<br />
+          From Symptoms to Solutions-<br />
          DigiCare Got You Covered!
         </h1>
         <p className="text-gray-400 max-w-xl mb-6">
