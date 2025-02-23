@@ -6,7 +6,7 @@ import Explore from './Explore'
 // import MeetOurDoc from './MeetOurDoc'
  import AboutUsSection from './AboutUs'
 // import PatientsSaySection from './PatientsSaySection'
-// import Footer from './Footer'
+ import Footer from './Footer'
 import Navbar from './Navbar';
 
 function HomePage() {
@@ -20,6 +20,7 @@ function HomePage() {
                 <Description/>
                 <Explore/>
                 <AboutUsSection/>
+                <Footer/>
                 {/* <Book2/>
                 <Explore/>
                 <OurServicesSection/>
