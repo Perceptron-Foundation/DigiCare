@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Im
 
 const Description = () => {
   return (
-    <section className="component" id='description' style={{ backgroundColor: '#d1f0ed' }}>
+    <section className="component bg-indigo-400" id='description'>
      <div className="flex flex-col items-center justify-center text-center flex-grow px-6">
          
           <h1 className="text-5xl font-bold leading-tight mb-4">
