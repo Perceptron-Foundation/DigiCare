@@ -11,7 +11,9 @@ import time
 load_dotenv()
 
 # Configure the Gemini AI model
-api_key = os.getenv("GEMINI_API_KEY")
+# api_key = os.getenv("GEMINI_API_KEY")
+
+api_key = st.secrets["GEMINI_API_KEY"]
 if not api_key:
     st.error("Gemini API key not found. Please set the GEMINI_API_KEY environment variable.")
     st.stop()
