@@ -28,7 +28,7 @@ export default function Explore() {
               p-6 rounded-lg  flex flex-col
               transform transition-all duration-300
               bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
-              hover:scale-105 hover:bg-[#FFD700] dark:hover:bg-[#ADFF00] hover:border-transparent
+              hover:scale-105 hover:bg-indigo-500 hover:border-transparent
               group cursor-pointer
               ${service.highlight 
                 ? "hover:shadow-[0_0_20px_rgba(173,255,0,0.3)]" 

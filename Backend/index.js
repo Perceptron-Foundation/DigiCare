@@ -6,7 +6,8 @@ require('dotenv').config();
 
 const app = express();
 const PORT = 3000;
-
+const cors = require('cors');
+app.use(cors());
 // Configure multer to use Cloudinary storage
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
@@ -34,6 +35,20 @@ const storage = new CloudinaryStorage({
       res.json({ url: req.file.path });
     });
   });
+  app.get('/get_reports', async (req, res) => {
+    try {
+      const { resources } = await cloudinary.search
+        .expression('folder:patient_reports') // Fetch only files from this folder
+        .sort_by('created_at', 'desc')
+        .max_results(10)
+        .execute();
+  
+      res.json(resources.map(file => ({ url: file.secure_url, name: file.public_id })));
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch reports', details: error.message });
+    }
+  });
+  
   
   
   
