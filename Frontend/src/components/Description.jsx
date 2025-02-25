@@ -6,22 +6,19 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Im
 
 const Description = () => {
   return (
-    <section className="component bg-indigo-400" id='description'>
-     <div className="flex flex-col items-center justify-center text-center flex-grow px-6">
-         
-          <h1 className="text-5xl font-bold leading-tight mb-4">
-          From Symptoms to Solutions-<br />
-         DigiCare Got You Covered!
-        </h1>
-        <p className="text-gray-400 max-w-xl mb-6">
-                    An AI-powered diagnostic assistant designed to help healthcare professionals make faster,more accurate diagnosis.Analyze medical images ,patient data and symptoms with unparalleled efficiency.</p>
-                 <Link to="/appointments"><button>Book Now</button></Link>
-        </div>
-        {/* <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap'}}>
-          <img src={docnew} alt="Doctor Image" style={{maxwidth : '100%', width : '680px'}} />
-        </div>  */}
-     
-    </section>
+    <section className="relative component bg-cover bg-center text-white" id='description'>
+  <div className="absolute inset-0 bg-cover bg-center opacity-90" style={{ backgroundImage: `url(${docnew})` }}></div>
+  <div className="flex flex-col items-center justify-center text-center flex-grow px-6 min-h-screen relative z-10">
+    <h1 className="text-6xl font-bold leading-tight mb-4 text-black">
+      From Symptoms to Solutions-<br />
+      DigiCare Got You Covered!
+    </h1>
+    <p className="text-white font-semibold text-lg max-w-xl mb-6">
+      An AI-powered diagnostic assistant designed to help healthcare professionals make faster, more accurate diagnoses. Analyze medical images, patient data, and symptoms with unparalleled efficiency.
+    </p>
+  </div>
+</section>
+
   ); 
 };
 

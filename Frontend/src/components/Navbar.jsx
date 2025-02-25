@@ -1,8 +1,13 @@
-// Navbar.jsx
+
+
 import { Link } from 'react-router-dom';
 // import icon from './images/logo.png';
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Navbar = () => {
+  const {isAuthenticated } = useAuth0();
   return (
     <div>
       <nav style={{ backgroundColor: 'white', padding: '10px', paddingLeft: '20px', paddingRight: '20px', position: 'fixed', top: 0, left: 0, right: 0, zIndex: '1', borderBottom: '1px solid #182c44' }}>
@@ -16,11 +21,19 @@ const Navbar = () => {
             <a className = 'a1' href="#book">Appointment</a>
             <a className = 'a1' href="#explore">Explore</a>
             <a className = 'a1' href="#services">Our Services</a>
-            <a className = 'a1' href="#doc">Meet Our Doc</a>
+            
             <a className = 'a1' href="#about">About Us</a>
             <a className = 'a1' href="#footer"> Contact Us </a>
-
+            
           </div>
+          <div className="flex items-center gap-4">
+          
+            
+              {!isAuthenticated? <LoginButton/> : <LogoutButton/>}
+            
+            
+          </div>
+
         </div>
       </nav>
     </div>
