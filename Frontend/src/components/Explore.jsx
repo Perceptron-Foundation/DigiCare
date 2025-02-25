@@ -1,3 +1,7 @@
+import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
+
+
 import medicalImage from './images/docnew.jpeg';
 import patientHistory from './images/Analysis.jpg';
 import symptomCorrelation from './images/docnew.jpeg';
@@ -6,12 +10,23 @@ import erpPortal from './images/Erp.jpg';
 import multiLingualChat from './images/Chatbot.jpg';
 
 export default function Explore() {
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const navigate = useNavigate();
+
+  const handleNavigation = (link) => {
+    if (!isAuthenticated) {
+      loginWithRedirect(); // Redirects to Auth0 login page
+    } else {
+      navigate(link); // Navigates to the feature page
+    }
+  };
+
   const services = [
     { icon: medicalImage, title: "AI Image Analysis", description: "Unlock insights from X-rays, MRIs, and more with the power of AI. Fast, accurate, and insightful.", link: '/image-analysis', highlight: true },
-    { icon: patientHistory, title: "Smart History Scan", description: "Weaving the story of your health. NLP extracts key insights from your patient history & symptoms.", link: '/history' },
-    { icon: erpPortal, title: "Patient & Doctor Portal", description: "Seamless care, connected experience. Your central hub for appointments, records, and communication.", link: '/portal' },
-    { icon: symptomCorrelation, title: "Symptom Matcher", description: "Connecting the dots. Correlating image findings with your symptoms for a clearer picture.", link: '/symptom-correlation' },
-    { icon: confidenceScore, title: "Diagnosis Confidence", description: "Understand the 'why' behind our suggestions. Each diagnosis comes with a probability score & reasoning.", link: '/confidence',highlight: true },
+    { icon: patientHistory, title: "Smart History Scan", description: "Weaving the story of your health. NLP extracts key insights from your patient history & symptoms.", link: '/history', highlight: true },
+    { icon: erpPortal, title: "Patient & Doctor Portal", description: "Seamless care, connected experience. Your central hub for appointments, records, and communication.", link: '/portal', highlight: true },
+    { icon: symptomCorrelation, title: "Symptom Matcher", description: "Connecting the dots. Correlating image findings with your symptoms for a clearer picture.", link: '/symptom-correlation', highlight: true },
+    { icon: confidenceScore, title: "Diagnosis Confidence", description: "Understand the 'why' behind our suggestions. Each diagnosis comes with a probability score & reasoning.", link: '/confidence', highlight: true },
     { icon: multiLingualChat, title: "Global Health Assistant", description: "Your health ally in 17+ languages. Chatbot support that understands you, wherever you are.", link: '/chatbot' }
   ];
 
@@ -25,7 +40,7 @@ export default function Explore() {
           <div
             key={index}
             className={`
-              p-6 rounded-lg  flex flex-col
+              p-6 rounded-lg flex flex-col
               transform transition-all duration-300
               bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
               hover:scale-105 hover:bg-indigo-500 hover:border-transparent
@@ -43,6 +58,7 @@ export default function Explore() {
             </p>
             {service.highlight && (
               <button 
+                onClick={() => handleNavigation(service.link)}
                 className="
                   mt-4 font-medium 
                   transform transition-all duration-300
@@ -61,3 +77,4 @@ export default function Explore() {
     </div>
   );
 }
+

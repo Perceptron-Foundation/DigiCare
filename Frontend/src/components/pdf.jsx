@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
+
 
 const FileUpload = () => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [file, setFile] = useState(null);
   const [uploadedReports, setUploadedReports] = useState([]);
@@ -96,6 +100,12 @@ const FileUpload = () => {
           <p>No reports uploaded yet.</p>
         )}
       </div>
+      <button 
+  onClick={() => navigate('/')} 
+  className="bg-gray-500 text-white px-4 py-2 rounded mt-4"
+>
+  Back to Homepage
+</button>
     </div>
   );
 };
