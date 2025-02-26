@@ -12,9 +12,7 @@ function HomePage() {
   return (
     // <>
         <div className="app-container">
-            <div className='navbar'>
-            <Navbar />
-            </div>
+            
             <div className='content'>
                 <Description/>
                 <Explore/>

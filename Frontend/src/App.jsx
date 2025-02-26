@@ -1,14 +1,17 @@
-import "./App.css"
-import { BrowserRouter, Route, Routes } from 'react-router-dom'; // Import Route
-import HomePage from './components/HomePage';
+import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomePage from "./components/HomePage";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import LoginButton from "./components/LoginButton";
-import FileUpload from "./components/FileUpload"
+import FileUpload from "./components/FileUpload";
 import AIAssistant from "./components/AiAssistant";
-import Explore from './components/Explore'
-import AboutUsSection from './components/AboutUs'
-import Footer from './components/Footer'
+import Explore from "./components/Explore";
+import AboutUsSection from "./components/AboutUs";
+import Footer from "./components/Footer";
+import FAQ from "./components/Faq.jsx";
+import Navbar from "./components/Navbar"; // Import Navbar
+
 function App() {
   const { isAuthenticated, user } = useAuth0();
   const [isFirstTime, setIsFirstTime] = useState(false);
@@ -22,25 +25,25 @@ function App() {
       }
     }
   }, [isAuthenticated, user]);
+
   return (
     <BrowserRouter>
+      {/* Navbar appears on every page */}
+      <Navbar />
 
       <Routes>
-
-        <Route path='/' element={<HomePage/>} />
-        <Route path='/explore' element={<Explore/>}/>
-        <Route path='/about' element={<AboutUsSection/>}/>
-        <Route path='/footer' element={<Footer/>}/>
-        <Route path='/2' element={<LoginButton/>} />
-
-        <Route path='/portal' element={<FileUpload/>} />
-        <Route path='/image-analysis' element={<AIAssistant/>} />
-        <Route path='/history' element={<AIAssistant/>} />
-
-       
+        <Route path="/" element={<HomePage />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/about" element={<AboutUsSection />} />
+        <Route path="/footer" element={<Footer />} />
+        <Route path="/2" element={<LoginButton />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/portal" element={<FileUpload />} />
+        <Route path="/image-analysis" element={<AIAssistant />} />
+        <Route path="/history" element={<AIAssistant />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
-export default App;  
+export default App;

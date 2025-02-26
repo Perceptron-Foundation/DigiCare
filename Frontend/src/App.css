@@ -1,87 +1,96 @@
+/* General Styles */
 .App {
-    font-family: 'Roboto', sans-serif;
-  }
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  body, .app-container {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Styling for the navbar */
-  .navbar {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 20px;
-    border: #0cbbb4;
-  }
-  
-  /* Styling for the components */
-  .component {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    /* align-items: center; */
-    /* margin-top: auto; */
-    height: 100vh;
-    overflow: auto; 
-    margin: 0;
-    
-  }
-  
-  .component > * {
-    text-align: center; /* Center text horizontally */
-    max-width: 100%; /* Adjust as needed */
-  }
-  
-  
-  h2 {
-    font-size: 45px;
-  }
-  
-  h3 {
-    font-size: 45px; /* Adjust as needed */
-  }
-  
-  h2,
-  h3 {
-      font-family: "Lobster", sans-serif; /* Specify the font family */
-      font-weight: bold; 
-  }
-  
-  
-  p {
-    font-size: 20px;
-  }
-  
-  .a1 {
-    color: black !important;
-    font-size: 20px;
-  }
-  
-  .a2 {
-    color: white !important;
-    font-size: 20px;
-  }
-  
-  a:active,
-  a:visited,
-  a:hover{
-      text-decoration: underline #0cbbb4; /* Add underline */
-  }
-  
-  #name {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  #links {
-    font-size: 18px;
-  
-  }
+  font-family: 'Roboto', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body, .app-container {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Navbar Styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px; /* Adjust if necessary */
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  z-index: 1000; /* Keeps navbar above other content */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure Body Doesn't Hide Under Navbar */
+.page-content {
+  padding-top: 80px; /* Adjust as needed to avoid content hiding under navbar */
+  flex: 1;
+}
+
+/* Component Styles */
+.component {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 80px); /* Ensure it doesn't exceed viewport height */
+  overflow: auto;
+  margin: 0;
+}
+
+.component > * {
+  text-align: center; /* Center text horizontally */
+  max-width: 100%; /* Adjust as needed */
+}
+
+/* Typography */
+h2, h3 {
+  font-size: 45px;
+  font-family: "Lobster", sans-serif;
+  font-weight: bold;
+  margin: 0;
+}
+
+p {
+  font-size: 20px;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+/* Links Styling */
+.a1 {
+  color: black !important;
+  font-size: 20px;
+}
+
+.a2 {
+  color: white !important;
+  font-size: 20px;
+}
+
+a:active, a:visited, a:hover {
+  text-decoration: underline #0cbbb4; /* Add underline */
+}
+
+/* Miscellaneous */
+#name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#links {
+  font-size: 18px;
+}
