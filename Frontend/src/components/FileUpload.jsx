@@ -118,7 +118,7 @@ const fetchReports = async () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 rounded-lg shadow-lg max-w-md mx-auto">
+    <div className="p-6 py-24 bg-gray-100 rounded-lg shadow-lg max-w-md mx-auto">
       <h2 className="text-xl font-semibold mb-4">Upload a Report</h2>
       {isAuthenticated ? (
         <>

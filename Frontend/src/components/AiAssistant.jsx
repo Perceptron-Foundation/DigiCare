@@ -1,6 +1,6 @@
 const AIAssistant = () => {
     return (
-      <div className="max-w-full h-screen p-4 md:p-6 bg-[#FEFCE8] dark:bg-gray-800 dark:text-white shadow-lg transition-all flex flex-col">
+      <div className="max-w-full h-screen p-4 py-10 md:p-6 bg-[#FEFCE8] dark:bg-gray-800 dark:text-white shadow-lg transition-all flex flex-col">
        
   
         <iframe

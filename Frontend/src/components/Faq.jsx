@@ -32,7 +32,7 @@ const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="bg-white text-gray-900 py-12 px-6">
+    <section id="faq" className="bg-white text-gray-900 py-24 px-6">
       <div className="max-w-3xl mx-auto text-center">
         <h2 className="text-4xl font-bold text-gray-900">Frequently Asked Questions</h2>
         <p className="text-gray-500 mt-2">Find answers to the most common questions about DigiCare.</p>
@@ -40,21 +40,29 @@ const FAQ = () => {
 
       <div className="max-w-3xl mx-auto mt-8 space-y-4">
         {faqs.map((faq, index) => (
-          <div 
-            key={index} 
-            className="bg-white border border-gray-300 rounded-lg shadow-md p-4 transition duration-300"
+          <div
+            key={index}
+            className={`border border-gray-300 rounded-lg shadow-md p-4 transition-all duration-300 ${
+              openIndex === index ? "bg-indigo-400 text-black" : "bg-white"
+            }`}
           >
             <button
-              className="w-full flex justify-between items-center text-lg font-medium text-gray-900"
+              className={`w-full flex justify-between items-center text-lg font-medium transition-colors duration-300 ${
+                openIndex === index ? "text-black text-lg font-semibold" : "text-gray-900"
+              }`}
               onClick={() => toggleFAQ(index)}
             >
               {faq.question}
-              <FaChevronDown 
-                className={`transition-transform ${openIndex === index ? "rotate-180 text-blue-600" : "text-gray-500"}`} 
+              <FaChevronDown
+                className={`transition-transform ${
+                  openIndex === index ? "rotate-180 text-white" : "text-gray-500"
+                }`}
               />
             </button>
             {openIndex === index && (
-              <p className="mt-2 text-gray-700 border-t border-gray-200 pt-2">{faq.answer}</p>
+              <p className="mt-2  text-black border-t border-gray-200 pt-2">
+                {faq.answer}
+              </p>
             )}
           </div>
         ))}
