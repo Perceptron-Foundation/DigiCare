@@ -10,7 +10,7 @@ import Explore from './Explore'
 // import PatientsSaySection from './PatientsSaySection'
  import Footer from './Footer'
 import Navbar from './Navbar';
-import UploadPdf from './Pdf'
+
 
 function HomePage() {
   return (
@@ -24,7 +24,7 @@ function HomePage() {
                 <Explore/>
                 <AboutUsSection/>
                 <Footer/>
-                <UploadPdf/>
+               
                 {/* <ChatComponent/> */}
                 <AIAssistant/>
                 {/* <Book2/>
