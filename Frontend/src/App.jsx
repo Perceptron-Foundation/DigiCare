@@ -42,6 +42,7 @@ function App() {
         <Route path="/image-analysis" element={<AIAssistant />} />
         <Route path="/history" element={<AIAssistant />} />
       </Routes>
+      
     </BrowserRouter>
   );
 }

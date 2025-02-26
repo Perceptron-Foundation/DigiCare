@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import Footer from "./Footer"
 
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 
@@ -118,6 +119,7 @@ const fetchReports = async () => {
   };
 
   return (
+    <>
     <div className="p-6 py-24 bg-gray-100 rounded-lg shadow-lg max-w-md mx-auto">
       <h2 className="text-xl font-semibold mb-4">Upload a Report</h2>
       {isAuthenticated ? (
@@ -160,7 +162,10 @@ const fetchReports = async () => {
       ) : (
         <p>Please log in to upload and view reports.</p>
       )}
+    
     </div>
+    <Footer/>
+    </>
   );
 };
 
