@@ -10,10 +10,9 @@ import time
 
 load_dotenv()
 
-# Configure the Gemini AI model
-# api_key = os.getenv("GEMINI_API_KEY")
 
-api_key = st.secrets["GEMINI_API_KEY"]
+
+api_key = os.getenv("GEMINI_API_KEY")
 if not api_key:
     st.error("Gemini API key not found. Please set the GEMINI_API_KEY environment variable.")
     st.stop()
@@ -25,7 +24,18 @@ MAX_RETRIES = 3
 RETRY_DELAY = 2  # seconds
 
 def analyze_medical_report(content, content_type):
-    prompt = "Analyze this medical report concisely. Provide key findings, diagnoses, and recommendations:"
+    prompt = """You are an AI medical assistant that answers queries based on the given context and relevant medical knowledge. 
+Here are some guidelines:
+- Prioritize information from the provided documents but supplement with general medical knowledge when necessary.
+- Ensure accuracy, citing sources from the document where applicable.
+- Provide confidence scoring based on probability and reasoning.
+- Be concise, informative, and avoid speculation.
+YOU WILL ANALYSE ONLY MEDICAL DATA, if other CONTEXT is PASSED you will say "Provide Relevant Medical Data. Thanks"
+Answer:
+- **Response:** 
+- **Confidence Score:** (based on available document references and medical reasoning)
+- **Reasoning:** (explain why this answer is correct and any potential limitations)
+"""
     
     for attempt in range(MAX_RETRIES):
         try:
@@ -67,48 +77,73 @@ def extract_text_from_pdf(pdf_file):
     return text
 
 def main():
-    st.title("AI-driven Medical Report Analyzer")
-    st.write("Upload a medical report (image or PDF) for analysis")
-
+    st.set_page_config(page_title="AI Medical Report Analyzer", layout="wide")
+    st.title("🩺 AI-driven Medical Report Analyzer")
+    st.write("Upload a medical report (Image/PDF) for AI-powered analysis.")
+    
+    st.markdown(
+        """
+        <style>
+            .upload-box {
+                background-color: #f8f9fa;
+                padding: 20px;
+                border-radius: 10px;
+                border: 1px solid #ddd;
+                box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .stButton>button {
+                background-color: #4CAF50;
+                color: white;
+                border-radius: 5px;
+                padding: 10px 24px;
+            }
+            .stSpinner {
+                color: #FF5733;
+            }
+        </style>
+        """, unsafe_allow_html=True)
+    
     file_type = st.radio("Select file type:", ("Image", "PDF"))
-
+    st.markdown('<div class="upload-box">', unsafe_allow_html=True)
+    
     if file_type == "Image":
-        uploaded_file = st.file_uploader("Choose a medical report image", type=["jpg", "jpeg", "png"])
+        uploaded_file = st.file_uploader("Choose a medical report image", type=["jpg", "jpeg", "png"], key="image")
+        st.markdown('</div>', unsafe_allow_html=True)
+        
         if uploaded_file is not None:
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.png') as tmp_file:
-                tmp_file.write(uploaded_file.getvalue())
-                tmp_file_path = tmp_file.name
-
-            image = Image.open(tmp_file_path)
+            image = Image.open(uploaded_file)
             st.image(image, caption="Uploaded Medical Report", use_column_width=True)
-
-            if st.button("Analyze Image Report"):
+            
+            if st.button("🔍 Analyze Image Report"):
                 with st.spinner("Analyzing the medical report image..."):
                     analysis = analyze_medical_report(image, "image")
-                    st.subheader("Analysis Results:")
-                    st.write(analysis)
-
-            os.unlink(tmp_file_path)
-
-    else:  # PDF
-        uploaded_file = st.file_uploader("Choose a medical report PDF", type=["pdf"])
+                st.subheader("📊 Analysis Results:")
+                st.write(analysis)
+    
+    else:
+        uploaded_file = st.file_uploader("Choose a medical report PDF", type=["pdf"], key="pdf")
+        st.markdown('</div>', unsafe_allow_html=True)
+        
         if uploaded_file is not None:
-            st.write("PDF uploaded successfully")
-
-            if st.button("Analyze PDF Report"):
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
+                tmp_file.write(uploaded_file.getvalue())
+                tmp_file_path = tmp_file.name
+            
+            with open(tmp_file_path, 'rb') as pdf_file:
+                pdf_text = extract_text_from_pdf(pdf_file)
+            
+            st.subheader("📄 Extracted Text Preview:")
+            st.text_area("Extracted Report Text", pdf_text[:1000] + "...", height=200, disabled=True)
+            
+            if st.button("🔍 Analyze PDF Report"):
                 with st.spinner("Analyzing the medical report PDF..."):
-                    with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
-                        tmp_file.write(uploaded_file.getvalue())
-                        tmp_file_path = tmp_file.name
-
-                    with open(tmp_file_path, 'rb') as pdf_file:
-                        pdf_text = extract_text_from_pdf(pdf_file)
-
                     analysis = analyze_medical_report(pdf_text, "text")
-                    st.subheader("Analysis Results:")
-                    st.write(analysis)
-
-                    os.unlink(tmp_file_path)
-
+                st.subheader("📊 Analysis Results:")
+                st.write(analysis)
+            
+            os.unlink(tmp_file_path)
+    
 if __name__ == "__main__":
     main()
