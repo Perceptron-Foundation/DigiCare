@@ -80,4 +80,12 @@ http://localhost:3000
 🌐 **Website:** [DigiCare]([https://yourwebsite.com](https://www.linkedin.com/in/mehak-singla-b6a655258/))  
 🤝 **Contributors:** @mehaksingla2005
 
+---
+
+## Credits
+
+- Developed by Mehak Singla
+- Chatbot technology powered by Google AI Studio
+- Prediction models powered by Google Teachable Machine
+
 
