@@ -49,7 +49,7 @@ const fetchReports = async () => {
         return;
       }
       
-      const response = await axios.get("http://localhost:3000/get_reports", {
+      const response = await axios.get("/api/get_reports", {
         headers: {
           Authorization: `Bearer ${token}`, // ✅ Secure API request
         },
@@ -100,7 +100,7 @@ const fetchReports = async () => {
       // ✅ Save file URL to backend
       const token = await getAccessTokenSilently();
       await axios.post(
-        "http://localhost:3000/upload_report",
+        "/api/upload_report",
         { title, fileUrl, userEmail: user.email },
         { headers: { Authorization: `Bearer ${token}` } }
       );

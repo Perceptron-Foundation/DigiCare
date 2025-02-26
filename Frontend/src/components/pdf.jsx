@@ -100,12 +100,7 @@ const FileUpload = () => {
           <p>No reports uploaded yet.</p>
         )}
       </div>
-      <button 
-  onClick={() => navigate('/')} 
-  className="bg-gray-500 text-white px-4 py-2 rounded mt-4"
->
-  Back to Homepage
-</button>
+    
     </div>
   );
 };

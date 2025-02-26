@@ -4,7 +4,7 @@ import HomePage from "./components/HomePage";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import LoginButton from "./components/LoginButton";
-import FileUpload from "./components/FileUpload";
+import FileUpload from "./components/Pdf";
 import AIAssistant from "./components/AiAssistant";
 import Explore from "./components/Explore";
 import AboutUsSection from "./components/AboutUs";
