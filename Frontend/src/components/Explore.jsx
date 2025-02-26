@@ -23,8 +23,9 @@ export default function Explore() {
 
   const services = [
     { icon: medicalImage, title: "AI Image Analysis", description: "Unlock insights from X-rays, MRIs, and more with the power of AI. Fast, accurate, and insightful.", link: '/image-analysis', highlight: true },
-    { icon: patientHistory, title: "Smart History Scan", description: "Weaving the story of your health. NLP extracts key insights from your patient history & symptoms.", link: '/history', highlight: true },
+
     { icon: erpPortal, title: "Patient & Doctor Portal", description: "Seamless care, connected experience. Your central hub for appointments, records, and communication.", link: '/portal', highlight: true },
+    { icon: patientHistory, title: "Smart History Scan", description: "Weaving the story of your health. NLP extracts key insights from your patient history & symptoms.", link: '/history', highlight: true },
     { icon: symptomCorrelation, title: "Symptom Matcher", description: "Connecting the dots. Correlating image findings with your symptoms for a clearer picture.", link: '/symptom-correlation', highlight: true },
     { icon: confidenceScore, title: "Diagnosis Confidence", description: "Understand the 'why' behind our suggestions. Each diagnosis comes with a probability score & reasoning.", link: '/confidence', highlight: true },
     { icon: multiLingualChat, title: "Global Health Assistant", description: "Your health ally in 17+ languages. Chatbot support that understands you, wherever you are.", link: '/chatbot' }

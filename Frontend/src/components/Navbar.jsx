@@ -30,7 +30,7 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden lg:flex space-x-6 text-gray-900 font-medium">
           <Link to="/" className="hover:text-blue-500 transition duration-300">Home</Link>
-          <Link to="/explore" className="hover:text-blue-500 transition duration-300">Explore</Link>
+          <Link to="/explore" className="hover:text-blue-500 transition duration-300">Features</Link>
           
           <Link to="/about" className="hover:text-blue-500 transition duration-300">About Us</Link>
           <Link to="/Faq" className="hover:text-blue-500 transition duration-300">FAQs</Link>
@@ -66,7 +66,7 @@ const Navbar = () => {
 
         <div className="flex flex-col items-center space-y-6 pt-16">
           <Link to="/" className="text-gray-900 hover:text-blue-500 transition duration-300" onClick={() => setMenuOpen(false)}>Home</Link>
-          <Link to="/explore" className="text-gray-900 hover:text-blue-500 transition duration-300" onClick={() => setMenuOpen(false)}>Explore</Link>
+          <Link to="/explore" className="text-gray-900 hover:text-blue-500 transition duration-300" onClick={() => setMenuOpen(false)}>Features</Link>
 
           <Link to="/about" className="text-gray-900 hover:text-blue-500 transition duration-300" onClick={() => setMenuOpen(false)}>About Us</Link>
           <Link to="/Faq" className="text-gray-900 hover:text-blue-500 transition duration-300" onClick={() => setMenuOpen(false)}>FAQs</Link>
