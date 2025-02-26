@@ -24,17 +24,17 @@ Analyze medical images, patient data, and symptoms with unparalleled efficiency.
 | Feature | Screenshot |
 |---------|------------|
 | 🏠 Home Page | ![Home Page](assets/Home_Page.png) |
-| 📑 AI Report Analyser | ![AI Report Analyser](assets/AI-Report-Analyser.png) |
-| ❓ FAQs | ![FAQs](assets/FAQs.png) |
 | 🔍 Features | ![Features](assets/Features.png) |
 | 🔐 Sign In | ![Sign In](assets/SignIn.png) |
+| 📑 AI Report Analyser | ![AI Report Analyser](assets/AI-Report-Analyser.png) |
 | 📤 Upload Portal | ![Upload Portal](assets/Upload_Portal.png) |
+| ❓ FAQs | ![FAQs](assets/FAQs.png) |
 
 ---
 
 ## 🛠 Tech Stack  
 
-**Frontend:** React.js, Tailwind CSS  
+**Frontend:** React.js, Streamlit, Tailwind CSS 
 **Backend:** Node.js, MongoDB, Auth0  
 **Storage:** Cloudinary  
 **AI Feature:** Gemini API, Langchain  
