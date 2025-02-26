@@ -4,7 +4,7 @@ const AIAssistant = () => {
        
   
         <iframe
-          src="https://report-analyser.streamlit.app/?embed=true"
+          src="http://localhost:8501/?embed=true"
           style={{ height: "100%", width: "100%", border: "none" }}
         ></iframe>
        
