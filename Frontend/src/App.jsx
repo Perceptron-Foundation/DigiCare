@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
@@ -11,6 +11,9 @@ import AboutUsSection from "./components/AboutUs";
 import Footer from "./components/Footer";
 import FAQ from "./components/Faq.jsx";
 import Navbar from "./components/Navbar"; // Import Navbar
+import DoctorDashboard from "./components/DoctorDashboard";
+import Dashboard from "./components/Dashboard";
+import PatientDashboard from "./components/PatientDashboard";
 
 function App() {
   const { isAuthenticated, user } = useAuth0();
@@ -41,6 +44,10 @@ function App() {
         <Route path="/portal" element={<FileUpload />} />
         <Route path="/image-analysis" element={<AIAssistant />} />
         <Route path="/history" element={<AIAssistant />} />
+        
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+        <Route path="/patient-dashboard" element={<PatientDashboard />} />
       </Routes>
       
     </BrowserRouter>
