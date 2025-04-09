@@ -24,7 +24,7 @@ export default function UserTypeSelection() {
           </button>
 
           <button
-            onClick={() => navigate("/doctor-dashboard")}
+            onClick={() => navigate("/doctor-registration")}
             className="w-full flex items-center justify-center gap-3 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-5 rounded-xl transition-transform transform hover:scale-105 shadow-md text-lg"
           >
             <Stethoscope className="w-5 h-5" />

@@ -15,7 +15,9 @@ import DoctorDashboard from "./components/DoctorDashboard";
 import Dashboard from "./components/Dashboard";
 import PatientDashboard from "./components/PatientDashboard";
 import PatientRegistration from "./components/PatientRegisteration.jsx";
-
+import DoctorRegistration from "./components/DoctorRegistration.jsx";
+import ProfilePage from './components/ProfilePage';
+import UserAvatar from "./components/UserAvatar.jsx";
 function App() {
   const { isAuthenticated, user } = useAuth0();
   const [isFirstTime, setIsFirstTime] = useState(false);
@@ -50,6 +52,9 @@ function App() {
         <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
         <Route path="/patient-dashboard" element={<PatientDashboard />} />
         <Route path="/patient-registration" element={<PatientRegistration />} />
+        <Route path="/doctor-registration" element={<DoctorRegistration />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/UserAvatar" element={<UserAvatar />} />
       </Routes>
       
     </BrowserRouter>
