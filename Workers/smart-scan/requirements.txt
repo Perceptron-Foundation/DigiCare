@@ -1,0 +1,7 @@
+python-dotenv
+langchain
+requests
+uuid
+chromadb
+langchain_google_genai
+pypdf
