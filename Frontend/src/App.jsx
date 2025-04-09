@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import Explore from "./components/Explore";
 import AboutUsSection from "./components/AboutUs";
 import Footer from "./components/Footer";
 import FAQ from "./components/Faq.jsx";
-import Navbar from "./components/Navbar"; // Import Navbar
+import Navbar from "./components/Navbar";
 import DoctorDashboard from "./components/DoctorDashboard";
 import Dashboard from "./components/Dashboard";
 import PatientDashboard from "./components/PatientDashboard";
@@ -18,27 +18,44 @@ import PatientRegistration from "./components/PatientRegisteration.jsx";
 import DoctorRegistration from "./components/DoctorRegistration.jsx";
 import ProfilePage from './components/ProfilePage';
 import UserAvatar from "./components/UserAvatar.jsx";
+import Register from "./components/Register.jsx";
+import Login from "./components/Login.jsx";
+
 function App() {
-  const { isAuthenticated, user } = useAuth0();
-  const [isFirstTime, setIsFirstTime] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth0();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      const firstTimeUser = localStorage.getItem(`firstTime_${user.sub}`);
-      if (!firstTimeUser) {
-        setIsFirstTime(true);
-        localStorage.setItem(`firstTime_${user.sub}`, "false");
-      }
+      setIsLoggedIn(true);
+      setUserEmail(user.email);
+    } else {
+      setIsLoggedIn(false);
+      setUserEmail('');
     }
   }, [isAuthenticated, user]);
+
+  const handleLogin = (loggedIn, email) => {
+    setIsLoggedIn(loggedIn);
+    setUserEmail(email);
+  };
+
+  const handleLogout = () => {
+    logout({ returnTo: window.location.origin });
+    setIsLoggedIn(false);
+    setUserEmail('');
+  };
 
   return (
     <BrowserRouter>
       {/* Navbar appears on every page */}
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn} userEmail={userEmail} onLogout={handleLogout} />
 
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/about" element={<AboutUsSection />} />
         <Route path="/footer" element={<Footer />} />

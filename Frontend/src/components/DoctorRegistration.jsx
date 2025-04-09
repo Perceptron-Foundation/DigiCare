@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const DoctorRegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -19,22 +20,118 @@ const DoctorRegistrationForm = () => {
     degrees: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  // Check user type on component mount
+  useEffect(() => {
+    const userType = localStorage.getItem('userType');
+    if (userType !== 'doctor') {
+      navigate('/');
+    }
+  }, [navigate]);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData({
       ...formData,
       [name]: files ? files[0] : value,
     });
+    // Clear any previous errors when user makes changes
+    setError(null);
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    // Basic validation
+    if (!formData.fullName || !formData.email || !formData.phone || !formData.registrationNumber) {
+      setError("Please fill in all required fields");
+      return false;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+
+    // Phone validation (basic)
+    const phoneRegex = /^\+?[\d\s-]{10,}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      setError("Please enter a valid phone number");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    setError(null);
+    
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const formDataToSend = new FormData();
+      for (const key in formData) {
+        if (formData[key] !== null) {
+          formDataToSend.append(key, formData[key]);
+          console.log(`Adding to FormData - ${key}:`, formData[key]);
+        }
+      }
+
+      // Log the actual FormData entries
+      console.log('FormData entries:');
+      for (const pair of formDataToSend.entries()) {
+        console.log(pair[0] + ':', pair[1]);
+      }
+
+      const response = await fetch('http://localhost:5000/api/doctors/register', {
+        method: 'POST',
+        body: formDataToSend
+      });
+
+      console.log('Response status:', response.status);
+      const responseText = await response.text();
+      console.log('Raw response:', responseText);
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('JSON Parse Error:', parseError);
+        throw new Error('Invalid response from server');
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to register doctor');
+      }
+
+      // Show success message
+      alert('Registration successful! Redirecting to dashboard...');
+      navigate('/doctor-dashboard');
+    } catch (error) {
+      console.error('Error:', error);
+      setError(error.message || 'There was an error submitting the form. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-[#f4f8ff] rounded-2xl shadow-md mt-10 mb-10">
       <h2 className="text-3xl font-bold text-center text-blue-700 mb-8">Doctor Registration</h2>
+      
+      {error && (
+        <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+          {error}
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block font-semibold mb-1">Full Name</label>
@@ -210,9 +307,24 @@ const DoctorRegistrationForm = () => {
         <div className="md:col-span-2 flex justify-center mt-6">
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-sm transition duration-300"
+            disabled={isLoading}
+            className={`${
+              isLoading 
+                ? 'bg-blue-400 cursor-not-allowed' 
+                : 'bg-blue-600 hover:bg-blue-700'
+            } text-white font-semibold py-3 px-8 rounded-full shadow-sm transition duration-300 flex items-center`}
           >
-            Register
+            {isLoading ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Registering...
+              </>
+            ) : (
+              'Register'
+            )}
           </button>
         </div>
       </form>

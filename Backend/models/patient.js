@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 
 const patientSchema = new mongoose.Schema({
-    auth0Id: {
-        type: String,
-        required: true
-    },
     profilePhoto: {
         type: String, // URL to the avatar
     },
+    documents: [{
+        type: String, // URLs to the documents
+    }],
     fullName: {
         type: String,
         required: true

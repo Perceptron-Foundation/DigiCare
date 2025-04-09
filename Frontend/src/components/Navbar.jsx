@@ -1,12 +1,9 @@
 import { Link } from 'react-router-dom';
-import LoginButton from './LoginButton';
-import LogoutButton from './LogoutButton';
-import { useAuth0 } from '@auth0/auth0-react';
 import { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
+import PropTypes from 'prop-types';
 
-const Navbar = () => {
-  const { isAuthenticated } = useAuth0();
+const Navbar = ({ isLoggedIn, userEmail, onLogout }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -31,15 +28,29 @@ const Navbar = () => {
         <div className="hidden lg:flex space-x-6 text-gray-900 font-medium">
           <Link to="/" className="hover:text-blue-500 transition duration-300">Home</Link>
           <Link to="/explore" className="hover:text-blue-500 transition duration-300">Features</Link>
-          
           <Link to="/about" className="hover:text-blue-500 transition duration-300">About Us</Link>
           <Link to="/Faq" className="hover:text-blue-500 transition duration-300">FAQs</Link>
           <Link to="/footer" className="hover:text-blue-500 transition duration-300">Contact Us</Link>
         </div>
 
-        {/* Authentication Buttons */}
-        <div className="hidden lg:block">
-          {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+        {/* Authentication Links */}
+        <div className="hidden lg:flex items-center space-x-4">
+          {isLoggedIn ? (
+            <>
+              <span className="text-gray-700">{userEmail}</span>
+              <button
+                onClick={onLogout}
+                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="px-4 py-2 text-gray-900 hover:text-blue-500 transition duration-300">Login</Link>
+              <Link to="/register" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">Register</Link>
+            </>
+          )}
         </div>
       </div>
 
@@ -67,19 +78,42 @@ const Navbar = () => {
         <div className="flex flex-col items-center space-y-6 pt-16">
           <Link to="/" className="text-gray-900 hover:text-blue-500 transition duration-300" onClick={() => setMenuOpen(false)}>Home</Link>
           <Link to="/explore" className="text-gray-900 hover:text-blue-500 transition duration-300" onClick={() => setMenuOpen(false)}>Features</Link>
-
           <Link to="/about" className="text-gray-900 hover:text-blue-500 transition duration-300" onClick={() => setMenuOpen(false)}>About Us</Link>
           <Link to="/Faq" className="text-gray-900 hover:text-blue-500 transition duration-300" onClick={() => setMenuOpen(false)}>FAQs</Link>
           <Link to="/footer" className="text-gray-900 hover:text-blue-500 transition duration-300" onClick={() => setMenuOpen(false)}>Contact Us</Link>
 
-          {/* Auth Buttons */}
-          <div className="pt-4">
-            {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+          {/* Auth Links */}
+          <div className="flex flex-col space-y-4 pt-4">
+            {isLoggedIn ? (
+              <>
+                <span className="text-gray-700 text-center">{userEmail}</span>
+                <button
+                  onClick={() => {
+                    onLogout();
+                    setMenuOpen(false);
+                  }}
+                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="text-gray-900 hover:text-blue-500 transition duration-300" onClick={() => setMenuOpen(false)}>Login</Link>
+                <Link to="/register" className="text-gray-900 hover:text-blue-500 transition duration-300" onClick={() => setMenuOpen(false)}>Register</Link>
+              </>
+            )}
           </div>
         </div>
       </div>
     </nav>
   );
+};
+
+Navbar.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  userEmail: PropTypes.string,
+  onLogout: PropTypes.func.isRequired
 };
 
 export default Navbar;

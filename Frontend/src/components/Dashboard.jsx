@@ -1,11 +1,20 @@
-
-
-
 import { useNavigate } from "react-router-dom";
 import { User, Stethoscope } from "lucide-react";
 
 export default function UserTypeSelection() {
   const navigate = useNavigate();
+
+  const handleUserTypeSelection = (type) => {
+    // Store user type in localStorage for persistence
+    localStorage.setItem('userType', type);
+    
+    // Redirect based on user type
+    if (type === 'patient') {
+      navigate("/patient-registration");
+    } else if (type === 'doctor') {
+      navigate("/doctor-registration");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center px-4">
@@ -16,7 +25,7 @@ export default function UserTypeSelection() {
 
         <div className="space-y-5">
           <button
-            onClick={() => navigate("/patient-registration")}
+            onClick={() => handleUserTypeSelection('patient')}
             className="w-full flex items-center justify-center gap-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-5 rounded-xl transition-transform transform hover:scale-105 shadow-md text-lg"
           >
             <User className="w-5 h-5" />
@@ -24,7 +33,7 @@ export default function UserTypeSelection() {
           </button>
 
           <button
-            onClick={() => navigate("/doctor-registration")}
+            onClick={() => handleUserTypeSelection('doctor')}
             className="w-full flex items-center justify-center gap-3 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-5 rounded-xl transition-transform transform hover:scale-105 shadow-md text-lg"
           >
             <Stethoscope className="w-5 h-5" />
