@@ -14,6 +14,7 @@ import Navbar from "./components/Navbar"; // Import Navbar
 import DoctorDashboard from "./components/DoctorDashboard";
 import Dashboard from "./components/Dashboard";
 import PatientDashboard from "./components/PatientDashboard";
+import PatientRegistration from "./components/PatientRegisteration.jsx";
 
 function App() {
   const { isAuthenticated, user } = useAuth0();
@@ -48,6 +49,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
         <Route path="/patient-dashboard" element={<PatientDashboard />} />
+        <Route path="/patient-registration" element={<PatientRegistration />} />
       </Routes>
       
     </BrowserRouter>
