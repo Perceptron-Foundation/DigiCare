@@ -48,7 +48,7 @@ const PatientRegistration = () => {
         }
       }
 
-      const response = await fetch('/api/patients/register', {
+      const response = await fetch('http://localhost:5000/api/patients/register', {
         method: 'POST',
         body: formDataToSend
       });
