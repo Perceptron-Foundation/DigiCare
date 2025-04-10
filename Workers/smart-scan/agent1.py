@@ -53,10 +53,7 @@ def store_chroma(docs, collection_name=None):
         persist_directory=persist_directory
     )
     retrieved_docs = vector_db.get()
-
-    # Print what’s inside
-    for i, doc in enumerate(retrieved_docs["documents"]):
-        print(f"Document {i+1}:\n{doc}\n{'-'*80}")
+    
     return session_id, vector_db
 
 def agent1_(json_data, pdf_links):
