@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/auth');
 const patientController = require('./controllers/patient');
 const doctorController = require('./controllers/doctor');
+const { storage } = require('./utils/cloudinary');
 require("dotenv").config();
 
 const app = express();
@@ -41,99 +42,37 @@ app.use(cookieParser());
 // Auth Routes
 app.use('/auth', authRoutes);
 
-// Doctor Registration Route with multer middleware
-const doctorPhotoUpload = multer({
-  storage: new CloudinaryStorage({
-    cloudinary,
-    params: {
-      folder: 'doctor_profiles',
-      resource_type: 'auto',
-    },
-  }),
-  fileFilter: (req, file, cb) => {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-      return cb(new Error('Only image files are allowed!'), false);
-    }
-    cb(null, true);
-  }
-});
-
-// Patient Photo Upload Configuration
-const patientPhotoUpload = multer({
-  storage: new CloudinaryStorage({
-    cloudinary,
-    params: {
-      folder: 'patient_profiles',
-      resource_type: 'auto',
-    },
-  }),
-  fileFilter: (req, file, cb) => {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-      return cb(new Error('Only image files are allowed!'), false);
-    }
-    cb(null, true);
-  }
-});
-
-// Patient Documents Upload Configuration
-const patientDocumentsUpload = multer({
-  storage: new CloudinaryStorage({
-    cloudinary,
-    params: {
-      folder: 'patient_documents',
-      resource_type: 'auto',
-    },
-  }),
-  fileFilter: (req, file, cb) => {
-    if (!file.originalname.match(/\.(pdf|doc|docx)$/)) {
-      return cb(new Error('Only PDF and Word documents are allowed!'), false);
-    }
-    cb(null, true);
-  }
-});
-
-app.post('/api/doctors/register', (req, res, next) => {
-  doctorPhotoUpload.single('profilePhoto')(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      console.error('Multer error:', err);
-      return res.status(400).json({ error: 'File upload error', details: err.message });
-    } else if (err) {
-      console.error('Other error:', err);
-      return res.status(400).json({ error: 'Invalid file type', details: err.message });
-    }
-    next();
-  });
-}, doctorController.registerDoctor);
-
-app.post('/api/patients/register', (req, res, next) => {
-  patientPhotoUpload.single('profileImage')(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      console.error('Multer error for profile image:', err);
-      return res.status(400).json({ error: 'Profile image upload error', details: err.message });
-    } else if (err) {
-      console.error('Other error for profile image:', err);
-      return res.status(400).json({ error: 'Invalid profile image type', details: err.message });
-    }
-    
-    // Then handle the documents
-    patientDocumentsUpload.array('documents', 5)(req, res, (docErr) => {
-      if (docErr instanceof multer.MulterError) {
-        console.error('Multer error for documents:', docErr);
-        return res.status(400).json({ error: 'Documents upload error', details: docErr.message });
-      } else if (docErr) {
-        console.error('Other error for documents:', docErr);
-        return res.status(400).json({ error: 'Invalid document type', details: docErr.message });
+const doctorPhotoUpload = multer({ storage });
+app.post(
+  '/api/doctors/register',
+  (req, res, next) => {
+    doctorPhotoUpload.single('profilePhoto')(req, res, (err) => {
+      if (err) {
+        if (err instanceof multer.MulterError) {
+          console.error('Multer error:', err);
+          return res.status(400).json({ error: 'File upload error', details: err.message });
+        } else {
+          console.error('Other error:', err);
+          return res.status(400).json({ error: 'Invalid file type', details: err.message });
+        }
       }
-      
-      // Store the files in req.files for the controller to access
-      if (req.files) {
-        req.documents = req.files;
-      }
-      
       next();
     });
-  });
-}, patientController.registerPatient);
+  },
+  doctorController.registerDoctor
+);
+
+const uploads = multer({ storage });
+// Use chained middleware to first upload the profile image then the documents,
+// and finally call the controller function.
+app.post(
+  '/api/patients/register',
+  uploads.fields([
+    { name: 'profileImage', maxCount: 1 },
+    { name: 'documents', maxCount: 5 }
+  ]),
+  patientController.registerPatient
+);
 
 // ✅ Authentication Middleware (Auth0)
 const checkAuth = jwt({
@@ -148,66 +87,66 @@ const checkAuth = jwt({
   });
   
 
-// ✅ Cloudinary Storage (Organized Per User)
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: async (req, file) => {
-    if (!req.auth) {
-      throw new Error("Unauthorized user");
-    }
+// // ✅ Cloudinary Storage (Organized Per User)
+// const storage = new CloudinaryStorage({
+//   cloudinary,
+//   params: async (req, file) => {
+//     if (!req.auth) {
+//       throw new Error("Unauthorized user");
+//     }
 
-    const username = req.auth.sub.replace("|", "_"); // Unique folder for each user
-    return {
-      folder: `patient_reports/${username}`, // ✅ User-specific folder
-      public_id: `${Date.now()}-${file.originalname.replace(/\s+/g, "_")}`,
-      resource_type: "auto",
-    };
-  },
-});
+//     const username = req.auth.sub.replace("|", "_"); // Unique folder for each user
+//     return {
+//       folder: `patient_reports/${username}`, // ✅ User-specific folder
+//       public_id: `${Date.now()}-${file.originalname.replace(/\s+/g, "_")}`,
+//       resource_type: "auto",
+//     };
+//   },
+// });
 
-const upload = multer({ 
-  storage,
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype !== "application/pdf") {
-      return cb(new Error("Only PDF files are allowed"));
-    }
-    cb(null, true);
-  }
-});
+// const upload = multer({ 
+//   storage,
+//   fileFilter: (req, file, cb) => {
+//     if (file.mimetype !== "application/pdf") {
+//       return cb(new Error("Only PDF files are allowed"));
+//     }
+//     cb(null, true);
+//   }
+// });
 
-// ✅ Debug Incoming Requests
-app.use((req, res, next) => {
-    console.log("Incoming Authorization Header:", req.headers.authorization); // ✅ Debug
-    next();
-  });
+// // ✅ Debug Incoming Requests
+// app.use((req, res, next) => {
+//     console.log("Incoming Authorization Header:", req.headers.authorization); // ✅ Debug
+//     next();
+//   });
   
 
-// ✅ Upload Report (Protected Route)
-app.post("/upload_report", checkAuth, upload.single("file"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: "No file uploaded" });
-  }
+// // ✅ Upload Report (Protected Route)
+// app.post("/upload_report", checkAuth, upload.single("file"), (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).json({ error: "No file uploaded" });
+//   }
 
-  console.log("Cloudinary Upload Successful:", req.file.path);
-  res.json({ url: req.file.path });
-});
+//   console.log("Cloudinary Upload Successful:", req.file.path);
+//   res.json({ url: req.file.path });
+// });
 
-// ✅ Fetch Reports for the Authenticated User
-app.get("/get_reports", checkAuth, async (req, res) => {
-  try {
-    const username = req.auth.sub.replace("|", "_"); // Same structure as upload
-    const { resources } = await cloudinary.search
-      .expression(`folder:patient_reports/${username}`)
-      .sort_by("created_at", "desc")
-      .max_results(10)
-      .execute();
+// // ✅ Fetch Reports for the Authenticated User
+// app.get("/get_reports", checkAuth, async (req, res) => {
+//   try {
+//     const username = req.auth.sub.replace("|", "_"); // Same structure as upload
+//     const { resources } = await cloudinary.search
+//       .expression(`folder:patient_reports/${username}`)
+//       .sort_by("created_at", "desc")
+//       .max_results(10)
+//       .execute();
 
-    res.json(resources.map(file => ({ url: file.secure_url, name: file.public_id })));
-  } catch (error) {
-    console.error("Error fetching reports:", error);
-    res.status(500).json({ error: "Failed to fetch reports", details: error.message });
-  }
-});
+//     res.json(resources.map(file => ({ url: file.secure_url, name: file.public_id })));
+//   } catch (error) {
+//     console.error("Error fetching reports:", error);
+//     res.status(500).json({ error: "Failed to fetch reports", details: error.message });
+//   }
+// });
 
 // Profile update routes (protected)
 // ✅ Start Server
